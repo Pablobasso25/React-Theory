@@ -1,10 +1,13 @@
 import "./App.css";
-
+import { MiSaludo } from "./components/MiSaludo";
+import Contador from "./components/Contador";
+import ListaUsuarios from "./components/usuarios/ListaUsuarios";
 function App() {
   return (
-    <div>
-      <h1>Mi primera App React</h1>
-      <p>aprendiendo react</p>
+    <div className="container">
+      <MiSaludo />
+      <Contador />
+      <ListaUsuarios />
     </div>
   );
 }
