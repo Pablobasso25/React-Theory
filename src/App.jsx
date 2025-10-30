@@ -1,12 +1,9 @@
-import "./App.css";
-/* import { MiSaludo } from "./components/MiSaludo";
-import Contador from "./components/Contador";
-import ListaUsuarios from "./components/usuarios/ListaUsuarios";
-import FormularioUsuario from "./components/formulario-usuarios/FormularioUsuario"; */
+import { Container, Row, Col, Alert } from "react-bootstrap";
+
+// 📥 IMPORTACIÓN DE COMPONENTES HIJOS
 import TarjetaPresentacion from "./components/props/TarejetaPresentacion";
 import ListaHabilidades from "./components/props/ListaHabilidades";
-import Boton from "./components/props/Boton";
-import { Alert, Col, Container, Row } from "react-bootstrap";
+
 // 🎯 COMPONENTE PADRE PRINCIPAL
 function App() {
   // 📊 DATOS QUE EL PADRE QUIERE COMPARTIR CON LOS HIJOS
@@ -16,7 +13,7 @@ function App() {
     // 🎨 CONTAINER PRINCIPAL DE BOOTSTRAP
     <Container className="py-4">
       {/* ℹ️ ALERTA DE BIENVENIDA */}
-      <Alert variant="info" className="text-center">
+      <Alert variant="primary" className="text-center">
         <h1>🚀 Mi Portfolio con React + Bootstrap</h1>
         <p className="mb-0">Aprendiendo React paso a paso</p>
       </Alert>
@@ -28,10 +25,10 @@ function App() {
           {/* 🎴 COMPONENTE TARJETA PRESENTACIÓN */}
           {/* 🔗 PASANDO PROPS AL HIJO */}
           <TarjetaPresentacion
-            nombre="Pablo Rodríguez" // ← Prop string
+            nombre="Pablo Baaso" // ← Prop string
             ocupacion="Estudiante de Programación" // ← Prop string
             descripcion="Apasionado por el desarrollo web y React. Actualmente aprendiendo los fundamentos de React y construyendo mis primeras aplicaciones."
-            nivel="principiante" // ← Prop string
+            nivel="avanzado" // ← Prop string
           />
 
           {/* 📋 COMPONENTE LISTA HABILIDADES */}

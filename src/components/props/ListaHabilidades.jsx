@@ -1,6 +1,5 @@
 // src/components/ListaHabilidades.jsx
-// src/components/ListaHabilidades.jsx
-import React from "react";
+
 import { Card, ListGroup, Badge } from "react-bootstrap";
 
 // 🎯 DEFINICIÓN DEL COMPONENTE HIJO
