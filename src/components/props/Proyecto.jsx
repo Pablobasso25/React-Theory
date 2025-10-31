@@ -7,6 +7,7 @@ function Proyecto({
   tecnologias, // ← array: Lista de tecnologías usadas
   enlace, // ← string: URL del proyecto o repositorio
   estado = "en desarrollo", // ← string: Estado del proyecto (valor por defecto)
+  fecha = "No especificada",
 }) {
   // 🎨 LÓGICA INTERNA DEL COMPONENTE
 
@@ -59,6 +60,12 @@ function Proyecto({
       </Card.Header>
 
       <Card.Body className="d-flex flex-column">
+        {/* 📅 FECHA DEL PROYECTO */}
+        <div className="mb-2">
+          <small className="text-muted">
+            <strong>📅 Fecha:</strong> {fecha}
+          </small>
+        </div>
         {/* 📄 Descripción del proyecto */}
         <Card.Text className="flex-grow-1">{descripcion}</Card.Text>
 

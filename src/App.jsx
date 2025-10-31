@@ -76,6 +76,7 @@ function App() {
                 ]}
                 enlace="https://github.com/pablo/mi-crud-usuarios"
                 estado="en desarrollo"
+                fecha="Enero 2024"
               />
             </Col>
 
@@ -92,6 +93,7 @@ function App() {
                 ]}
                 enlace="https://pablo-dev-portfolio.netlify.app"
                 estado="completado"
+                fecha="Diciembre 2023"
               />
             </Col>
 
