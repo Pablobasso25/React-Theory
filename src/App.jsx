@@ -74,7 +74,7 @@ function App() {
                   "JavaScript",
                   "LocalStorage",
                 ]}
-                enlace="https://github.com/pablo/mi-crud-usuarios"
+                enlace="https://github.com/Pablobasso25"
                 estado="en desarrollo"
                 fecha="Enero 2024"
               />
@@ -91,7 +91,7 @@ function App() {
                   "JavaScript",
                   "Responsive Design",
                 ]}
-                enlace="https://pablo-dev-portfolio.netlify.app"
+                enlace="#"
                 estado="completado"
                 fecha="Diciembre 2023"
               />
@@ -103,7 +103,7 @@ function App() {
                 titulo="Aplicación de Tareas"
                 descripcion="Gestor de tareas personal con funcionalidades de agregar, eliminar y marcar como completadas."
                 tecnologias={["React", "useState", "CSS3"]}
-                enlace="https://github.com/pablo/lista-tareas"
+                // ❌ NO TIENE PROP 'enlace' - será undefined
                 estado="en desarrollo"
               />
             </Col>

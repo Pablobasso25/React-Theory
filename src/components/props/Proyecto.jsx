@@ -39,6 +39,9 @@ function Proyecto({
     }
   };
 
+  // 🎯 Lógica para Validar si hay enlace
+  const tieneEnlaceValido = enlace && enlace !== "#";
+
   return (
     // 🎨 COMPONENTE BOOTSTRAP - Card
     <Card className="mb-4 shadow-sm h-100">
@@ -91,15 +94,31 @@ function Proyecto({
 
         {/* 🔗 Botón de enlace */}
         <div className="mt-auto">
-          <Button
-            variant="outline-primary"
-            href={enlace}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-100"
-          >
-            🌐 Ver Proyecto
-          </Button>
+          {/* 🎯 NUEVA LÓGICA: Botón o mensaje según enlace */}
+          {tieneEnlaceValido ? (
+            // ✅ CASO: HAY ENLACE VÁLIDO
+            <Button
+              variant="outline-primary"
+              href={enlace}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-100"
+            >
+              🌐 Ver Proyecto
+            </Button>
+          ) : (
+            // ❌ CASO: NO HAY ENLACE VÁLIDO
+            <div
+              className="alert alert-warning text-center py-2 mb-0"
+              role="alert"
+            >
+              <small>
+                <strong>🚫 Enlace no disponible</strong>
+                <br />
+                <span className="text-muted">Próximamente...</span>
+              </small>
+            </div>
+          )}
         </div>
       </Card.Body>
     </Card>
