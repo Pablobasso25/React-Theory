@@ -6,6 +6,9 @@ import DemoEventos from "./components/eventos/DemoEventos";
 import InputComplejo from "./components/multiplesEstados/InputComplejo";
 import ValidacionPassword from "./components/validacionContraseña/ValidacionPassword";
 import FormularioRegistro from "./components/formularioRegistro/FormularioRegistro";
+import PerfilUsuario from "./components/renderizadoCondicional/PerfilUsuario";
+import ListaTareas from "./components/renderizadoCondicional/ListaTareas";
+import TiendaOnline from "./components/renderizadoCondicional/TiendaOnline";
 
 function App2() {
   return (
@@ -37,6 +40,10 @@ function App2() {
           <ValidacionPassword />
           {/* 🎮 NUEVO COMPONENTE DE FORMULARIO DE REGISTRO*/}
           <FormularioRegistro />
+          {/* 🎮 NUEVO COMPONENTE DE RENDERIZADO CONDICIONAL*/}
+          <PerfilUsuario />
+          <ListaTareas />
+          <TiendaOnline />
         </Col>
       </Row>
     </Container>
