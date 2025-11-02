@@ -13,6 +13,8 @@ import SistemaNotificaciones from "./components/renderizadoCondicional/SistemaNo
 import RelojEnVivo from "./components/useEffect/RelojEnVivo";
 import BuscadorUsuarios from "./components/useEffect/BuscadorUsuarios";
 import EditorNotas from "./components/useEffect/EditorNotaas";
+import Clima from "./components/useEffect/Clima";
+import ChatTiempoReal from "./components/useEffect/ChatTiempoReal";
 
 function App2() {
   return (
@@ -74,6 +76,8 @@ function App2() {
           {/* <RelojEnVivo /> */}
           <BuscadorUsuarios />
           <EditorNotas />
+          <Clima />
+          <ChatTiempoReal />
         </Col>
       </Row>
     </Container>
