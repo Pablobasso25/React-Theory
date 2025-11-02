@@ -4,6 +4,7 @@ import Interruptor from "../src/components/useState/Interruptor";
 import FormularioContacto from "../src/components/useState/FormularioContacto";
 import DemoEventos from "./components/eventos/DemoEventos";
 import InputComplejo from "./components/multiplesEstados/InputComplejo";
+import ValidacionPassword from "./components/validacionContraseña/ValidacionPassword";
 
 function App2() {
   return (
@@ -31,6 +32,8 @@ function App2() {
           <DemoEventos />
           {/* 🎮 NUEVO COMPONENTE DE INPUT COMPLEJO */}
           <InputComplejo />
+          {/* 🎮 NUEVO COMPONENTE DE VALIDACIÓN PASSWORD */}
+          <ValidacionPassword />
         </Col>
       </Row>
     </Container>
