@@ -3,6 +3,7 @@ import Contador from "../src/components/useState/Contador";
 import Interruptor from "../src/components/useState/Interruptor";
 import FormularioContacto from "../src/components/useState/FormularioContacto";
 import DemoEventos from "./components/eventos/DemoEventos";
+import InputComplejo from "./components/multiplesEstados/InputComplejo";
 
 function App2() {
   return (
@@ -28,6 +29,8 @@ function App2() {
           </Row>
           {/* 🎮 NUEVO COMPONENTE DE EVENTOS */}
           <DemoEventos />
+          {/* 🎮 NUEVO COMPONENTE DE INPUT COMPLEJO */}
+          <InputComplejo />
         </Col>
       </Row>
     </Container>

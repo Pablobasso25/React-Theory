@@ -45,6 +45,7 @@ function DemoEventos() {
     evento.preventDefault();
     setMensaje(`📨 Formulario enviado: ${email}`);
     setEmail(""); // Limpiar el input
+    setTextoInput("");
   };
 
   // 🎯 7. EVENTO onKeyDown - TECLA PRESIONADA
