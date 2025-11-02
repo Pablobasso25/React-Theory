@@ -10,6 +10,9 @@ import PerfilUsuario from "./components/renderizadoCondicional/PerfilUsuario";
 import ListaTareas from "./components/renderizadoCondicional/ListaTareas";
 import TiendaOnline from "./components/renderizadoCondicional/TiendaOnline";
 import SistemaNotificaciones from "./components/renderizadoCondicional/SistemaNotificaciones";
+import RelojEnVivo from "./components/useEffect/RelojEnVivo";
+import BuscadorUsuarios from "./components/useEffect/BuscadorUsuarios";
+import EditorNotas from "./components/useEffect/EditorNotaas";
 
 function App2() {
   return (
@@ -67,11 +70,11 @@ function App2() {
             Manejando efectos secundarios, APIs, timers y localStorage
           </p>
         </Alert>
-        {/* <Col lg={6}>
+        <Col lg={6}>
           <RelojEnVivo />
           <BuscadorUsuarios />
           <EditorNotas />
-        </Col> */}
+        </Col>
       </Row>
     </Container>
   );
