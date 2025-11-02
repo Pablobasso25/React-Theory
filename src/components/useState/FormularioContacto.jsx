@@ -19,7 +19,7 @@ function FormularioContacto() {
 
     // ⚡ ACTUALIZAR SOLO LA PROPIEDAD QUE CAMBIÓ
     setFormulario({
-      ...formulario, // 📝 Copiar todas las propied  ades existentes
+      ...formulario, // 📝 Copiar todas las propiedades existentes
       [name]: value, // ✏️ Actualizar solo la propiedad que cambió
     });
   };
