@@ -22,17 +22,24 @@ function App2() {
       <Row>
         {/* 📦 COLUMNA DERECHA - COMPONENTES INTERACTIVOS */}
         <Col lg={6}>
-          <Row>
-            <Col md={12} className="mb-3">
-              <Contador />
-            </Col>
-            <Col md={12} className="mb-3">
-              <Interruptor />
-            </Col>
-            <Col md={12} className="mb-3">
-              <FormularioContacto />
-            </Col>
-          </Row>
+          <Col md={12} className="mb-3">
+            <Contador />
+          </Col>
+          <Col md={12} className="mb-3">
+            <Interruptor />
+          </Col>
+          <Col md={12} className="mb-3">
+            <FormularioContacto />
+          </Col>
+        </Col>
+
+        <Alert variant="info" className="text-center">
+          <h1>🚀 Día 4: Eventos en React</h1>
+          <p className="mb-0">
+            Aprendiendo a manejar interacciones del usuario
+          </p>
+        </Alert>
+        <Col lg={6}>
           {/* 🎮 NUEVO COMPONENTE DE EVENTOS */}
           <DemoEventos />
           {/* 🎮 NUEVO COMPONENTE DE INPUT COMPLEJO */}
@@ -44,9 +51,27 @@ function App2() {
           {/* 🎮 NUEVO COMPONENTE DE RENDERIZADO CONDICIONAL*/}
           <PerfilUsuario />
           <ListaTareas />
+        </Col>
+
+        <Alert variant="info" className="text-center">
+          <h1>🚀 Ejercicios Prácticos - Día 5</h1>
+          <p className="mb-0">Renderizado condicional y listas en acción</p>
+        </Alert>
+        <Col lg={6}>
           <TiendaOnline />
           <SistemaNotificaciones />
         </Col>
+        <Alert variant="info" className="text-center">
+          <h1>🚀 Día 6: useEffect - Efectos Secundarios</h1>
+          <p className="mb-0">
+            Manejando efectos secundarios, APIs, timers y localStorage
+          </p>
+        </Alert>
+        {/* <Col lg={6}>
+          <RelojEnVivo />
+          <BuscadorUsuarios />
+          <EditorNotas />
+        </Col> */}
       </Row>
     </Container>
   );
