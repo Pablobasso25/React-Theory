@@ -71,7 +71,7 @@ function App2() {
           </p>
         </Alert>
         <Col lg={6}>
-          <RelojEnVivo />
+          {/* <RelojEnVivo /> */}
           <BuscadorUsuarios />
           <EditorNotas />
         </Col>
