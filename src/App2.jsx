@@ -5,6 +5,7 @@ import FormularioContacto from "../src/components/useState/FormularioContacto";
 import DemoEventos from "./components/eventos/DemoEventos";
 import InputComplejo from "./components/multiplesEstados/InputComplejo";
 import ValidacionPassword from "./components/validacionContraseña/ValidacionPassword";
+import FormularioRegistro from "./components/formularioRegistro/FormularioRegistro";
 
 function App2() {
   return (
@@ -34,6 +35,8 @@ function App2() {
           <InputComplejo />
           {/* 🎮 NUEVO COMPONENTE DE VALIDACIÓN PASSWORD */}
           <ValidacionPassword />
+          {/* 🎮 NUEVO COMPONENTE DE FORMULARIO DE REGISTRO*/}
+          <FormularioRegistro />
         </Col>
       </Row>
     </Container>
