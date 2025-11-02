@@ -1,10 +1,10 @@
 // src/components/HooksAvanzados.jsx
 import React, { useState } from "react";
 import { Card, Form, Alert, Badge, Button } from "react-bootstrap";
-import useDebounce from "../hooks/useDebounce";
-import useOnlineStatus from "../hooks/useOnlineStatus";
-import useLocalStorage from "../hooks/useLocalStorage";
-import useToggle from "../hooks/useToggle";
+import useDebounce from "../../hooks/useDebounce";
+import useOnlineStatus from "../../hooks/useOnlineStatus";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import useToggle from "../../hooks/useToggle";
 
 function HooksAvanzados() {
   // 🎯 USO DE useOnlineStatus

@@ -1,7 +1,7 @@
 import { Container, Row, Col, Alert } from "react-bootstrap";
-import Contador from "../src/components/useState/Contador";
-import Interruptor from "../src/components/useState/Interruptor";
-import FormularioContacto from "../src/components/useState/FormularioContacto";
+import Contador from "./components/useState/Contador";
+import Interruptor from "./components/useState/Interruptor";
+import FormularioContacto from "./components/useState/FormularioContacto";
 import DemoEventos from "./components/eventos/DemoEventos";
 import InputComplejo from "./components/multiplesEstados/InputComplejo";
 import ValidacionPassword from "./components/validacionContraseña/ValidacionPassword";
@@ -15,6 +15,8 @@ import BuscadorUsuarios from "./components/useEffect/BuscadorUsuarios";
 import EditorNotas from "./components/useEffect/EditorNotaas";
 import Clima from "./components/useEffect/Clima";
 import ChatTiempoReal from "./components/useEffect/ChatTiempoReal";
+import DemoCustomHooks from "./components/customHooks/DemoCustomHooks";
+import HooksAvanzados from "./components/customHooks/HooksAvanzados";
 
 function App2() {
   return (
@@ -78,6 +80,16 @@ function App2() {
           <EditorNotas />
           <Clima />
           <ChatTiempoReal />
+        </Col>
+        <Alert variant="info" className="text-center">
+          <h1>🚀 Día 7: Custom Hooks y Hooks Avanzados</h1>
+          <p className="mb-0">Creando lógica reutilizable con Custom Hooks</p>
+        </Alert>
+        <Col lg={12}>
+          <DemoCustomHooks />
+        </Col>
+        <Col lg={12} className="mt-4">
+          <HooksAvanzados />
         </Col>
       </Row>
     </Container>

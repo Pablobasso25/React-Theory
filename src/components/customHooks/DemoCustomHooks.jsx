@@ -10,9 +10,9 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import useLocalStorage from "../hooks/useLocalStorage";
-import useToggle from "../hooks/useToggle";
-import useFetch from "../hooks/useFetch";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import useToggle from "../../hooks/useToggle";
+import useFetch from "../../hooks/useFetch";
 
 function DemoCustomHooks() {
   // 🎯 USO DE useLocalStorage
