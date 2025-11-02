@@ -9,6 +9,7 @@ import FormularioRegistro from "./components/formularioRegistro/FormularioRegist
 import PerfilUsuario from "./components/renderizadoCondicional/PerfilUsuario";
 import ListaTareas from "./components/renderizadoCondicional/ListaTareas";
 import TiendaOnline from "./components/renderizadoCondicional/TiendaOnline";
+import SistemaNotificaciones from "./components/renderizadoCondicional/SistemaNotificaciones";
 
 function App2() {
   return (
@@ -44,6 +45,7 @@ function App2() {
           <PerfilUsuario />
           <ListaTareas />
           <TiendaOnline />
+          <SistemaNotificaciones />
         </Col>
       </Row>
     </Container>
