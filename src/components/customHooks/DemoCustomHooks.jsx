@@ -35,7 +35,7 @@ function DemoCustomHooks() {
     <Card
       className="shadow-sm"
       style={{
-        backgroundColor: temaOscuro ? "#2c3e50" : "white",
+        backgroundColor: temaOscuro ? "#000000ff" : "white",
         color: temaOscuro ? "white" : "black",
       }}
     >

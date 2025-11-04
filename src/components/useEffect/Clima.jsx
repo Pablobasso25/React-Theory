@@ -1,89 +1,110 @@
 // src/components/Clima.jsx
 import React, { useState, useEffect } from "react";
 import { Card, Button, Badge, Alert, Spinner, Row, Col } from "react-bootstrap";
+// ✅ IMPORTAR ESTILOS DE BOOTSTRAP
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Clima() {
+  const urlBase = "https://api.openweathermap.org/data/2.5/weather";
+  const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+
   const [clima, setClima] = useState(null);
   const [estaCargando, setEstaCargando] = useState(true);
   const [error, setError] = useState(null);
   const [ultimaActualizacion, setUltimaActualizacion] = useState(null);
   const [ciudad, setCiudad] = useState("Buenos Aires");
 
-  // 🎯 useEffect 1: CARGAR CLIMA AL MONTAR y cada 5 minutos
   useEffect(() => {
     cargarClima();
 
-    // 🎯 INTERVALO para actualizar cada 5 minutos
     const intervalo = setInterval(() => {
-      console.log("🔄 Actualizando clima automáticamente...");
       cargarClima();
-    }, 5 * 60 * 1000); // 5 minutos
+    }, 5 * 60 * 1000);
 
-    // 🎯 LIMPIEZA del intervalo al desmontar
-    return () => {
-      clearInterval(intervalo);
-      console.log("🧹 Intervalo de clima limpiado");
-    };
-  }, [ciudad]); // ← Se re-ejecuta cuando la ciudad cambia
+    return () => clearInterval(intervalo);
+  }, [ciudad]);
 
-  // 🎯 FUNCIÓN PARA CARGAR CLIMA
   const cargarClima = async () => {
     setEstaCargando(true);
     setError(null);
 
     try {
-      // 🎯 API de clima (OpenWeatherMap) - Versión simulada
-      // En una app real, usarías: https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=TU_API_KEY
+      const response = await fetch(
+        `${urlBase}?q=${encodeURIComponent(
+          ciudad
+        )}&appid=${API_KEY}&units=metric&lang=es`
+      );
 
-      // Simulamos una llamada a API con datos de ejemplo
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
 
-      // 🎯 DATOS SIMULADOS (en una app real, estos vendrían de la API)
+      const data = await response.json();
+
       const datosClima = {
-        ciudad: ciudad,
-        temperatura: Math.round(Math.random() * 35 + 5), // 5-40°C
-        descripcion: ["Soleado", "Parcialmente nublado", "Nublado", "Lluvioso"][
-          Math.floor(Math.random() * 4)
-        ],
-        humedad: Math.round(Math.random() * 50 + 30), // 30-80%
-        viento: Math.round(Math.random() * 30 + 5), // 5-35 km/h
-        presion: Math.round(Math.random() * 50 + 1000), // 1000-1050 hPa
-        icono: "☀️",
+        ciudad: data.name,
+        temperatura: Math.round(data.main.temp),
+        descripcion: data.weather[0].description,
+        humedad: data.main.humidity,
+        viento: Math.round(data.wind.speed * 3.6),
+        presion: data.main.pressure,
+        icono: obtenerIconoClima(data.weather[0].icon),
+        sensacionTermica: Math.round(data.main.feels_like),
+        pais: data.sys.country,
       };
-
-      // Determinar icono según descripción
-      if (datosClima.descripcion.includes("Lluvioso")) datosClima.icono = "🌧️";
-      else if (datosClima.descripcion.includes("Nublado"))
-        datosClima.icono = "☁️";
-      else if (datosClima.descripcion.includes("Parcialmente"))
-        datosClima.icono = "⛅";
 
       setClima(datosClima);
       setUltimaActualizacion(new Date());
-      console.log("✅ Clima cargado:", datosClima);
     } catch (err) {
-      setError("Error al cargar el clima. Intenta nuevamente.");
-      console.error("❌ Error cargando clima:", err);
+      if (err.message.includes("404")) {
+        setError(`No se encontró la ciudad "${ciudad}". Verifica el nombre.`);
+      } else if (err.message.includes("401")) {
+        setError("Error de autenticación. Verifica la configuración.");
+      } else {
+        setError("Error al cargar el clima. Intenta nuevamente.");
+      }
     } finally {
       setEstaCargando(false);
     }
   };
 
-  // 🎯 OBTENER COLOR según temperatura
-  const obtenerColorTemperatura = (temp) => {
-    if (temp < 10) return "info"; // Azul - Frío
-    if (temp < 25) return "success"; // Verde - Templado
-    if (temp < 35) return "warning"; // Amarillo - Calor
-    return "danger"; // Rojo - Mucho calor
+  const obtenerIconoClima = (iconCode) => {
+    const iconMap = {
+      "01d": "☀️",
+      "01n": "🌙",
+      "02d": "⛅",
+      "02n": "☁️",
+      "03d": "☁️",
+      "03n": "☁️",
+      "04d": "☁️",
+      "04n": "☁️",
+      "09d": "🌧️",
+      "09n": "🌧️",
+      "10d": "🌦️",
+      "10n": "🌧️",
+      "11d": "⛈️",
+      "11n": "⛈️",
+      "13d": "❄️",
+      "13n": "❄️",
+      "50d": "🌫️",
+      "50n": "🌫️",
+    };
+    return iconMap[iconCode] || "🌈";
   };
 
-  // 🎯 FORMATEAR FECHA
+  const obtenerColorTemperatura = (temp) => {
+    if (temp < 10) return "info";
+    if (temp < 25) return "success";
+    if (temp < 35) return "warning";
+    return "danger";
+  };
+
   const formatearFecha = (fecha) => {
     return fecha ? fecha.toLocaleTimeString("es-ES") : "Nunca";
   };
 
   return (
-    <Card className="shadow-sm">
+    <Card className="shadow-sm ">
       <Card.Header>
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="mb-0">🌤️ Clima Actual</h5>
@@ -96,7 +117,6 @@ function Clima() {
       </Card.Header>
 
       <Card.Body>
-        {/* 🎯 SELECTOR DE CIUDAD */}
         <div className="mb-3">
           <label className="form-label">
             <strong>Ciudad:</strong>
@@ -124,7 +144,6 @@ function Clima() {
           </div>
         </div>
 
-        {/* 🎯 ESTADOS DE CARGA Y ERROR */}
         {estaCargando && (
           <div className="text-center my-4">
             <Spinner animation="border" variant="primary" />
@@ -143,10 +162,8 @@ function Clima() {
           </Alert>
         )}
 
-        {/* 🎯 INFORMACIÓN DEL CLIMA */}
         {!estaCargando && !error && clima && (
           <div>
-            {/* 🌡️ TEMPERATURA PRINCIPAL */}
             <div className="text-center mb-4">
               <div style={{ fontSize: "4rem" }}>{clima.icono}</div>
               <div className="display-4">
@@ -154,11 +171,17 @@ function Clima() {
                   {clima.temperatura}°C
                 </Badge>
               </div>
-              <h4>{clima.ciudad}</h4>
-              <div className="text-muted">{clima.descripcion}</div>
+              <h4>
+                {clima.ciudad}, {clima.pais}
+              </h4>
+              <div className="text-muted text-capitalize">
+                {clima.descripcion}
+              </div>
+              <div className="small text-muted mt-1">
+                Sensación térmica: {clima.sensacionTermica}°C
+              </div>
             </div>
 
-            {/* 📊 DATOS ADICIONALES */}
             <Row className="text-center">
               <Col xs={6} className="mb-3">
                 <div className="border rounded p-2">
@@ -187,16 +210,6 @@ function Clima() {
             </Row>
           </div>
         )}
-
-        {/* 💡 INFORMACIÓN SOBRE useEffect */}
-        <Alert variant="info" className="mt-3 small">
-          <strong>🎯 useEffect en este componente:</strong>
-          <br />• <strong>Al montar/cambiar ciudad:</strong> Carga datos del
-          clima
-          <br />• <strong>Intervalo:</strong> Actualiza cada 5 minutos
-          automáticamente
-          <br />• <strong>Limpieza:</strong> Limpia intervalo al desmontar
-        </Alert>
       </Card.Body>
     </Card>
   );
