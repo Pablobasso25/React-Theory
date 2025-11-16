@@ -1,5 +1,6 @@
 // src/components/FormularioRegistro.jsx
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   Card,
   Form,
@@ -11,114 +12,55 @@ import {
 } from "react-bootstrap";
 
 function FormularioRegistro() {
-  // 🎯 ESTADOS PARA EL FORMULARIO
-  const [formulario, setFormulario] = useState({
-    nombre: "",
-    email: "",
-    password: "",
-    confirmarPassword: "",
-  });
-
-  // 🎯 ESTADOS PARA VALIDACIÓN DE PASSWORD
-  const [longitud, setLongitud] = useState(0);
-  const [tieneMayuscula, setTieneMayuscula] = useState(false);
-  const [tieneMinuscula, setTieneMinuscula] = useState(false);
-  const [tieneNumero, setTieneNumero] = useState(false);
-  const [fuerzaPassword, setFuerzaPassword] = useState(0);
-
-  // 🎯 ESTADOS PARA FEEDBACK
-  const [passwordsCoinciden, setPasswordsCoinciden] = useState(true);
-  const [emailValido, setEmailValido] = useState(true);
   const [registroExitoso, setRegistroExitoso] = useState(false);
   const [estaEnviando, setEstaEnviando] = useState(false);
 
-  // 🎯 MANEJADOR PARA TODOS LOS CAMPOS
-  const manejarCambio = (evento) => {
-    const { name, value } = evento.target;
+  // 🎯 Configuración de React Hook Form
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm({
+    mode: "onChange", // Validar mientras se escribe
+    defaultValues: {
+      nombre: "",
+      email: "",
+      password: "",
+      confirmarPassword: "",
+    },
+  });
 
-    // Actualizar el campo específico
-    setFormulario({
-      ...formulario,
-      [name]: value,
-    });
-
-    // 📧 VALIDACIÓN ESPECÍFICA PARA EMAIL
-    if (name === "email") {
-      setEmailValido(validarEmail(value));
-    }
-
-    // 🔐 VALIDACIÓN ESPECÍFICA PARA PASSWORD
-    if (name === "password") {
-      validarPassword(value);
-    }
-
-    // 🔄 VALIDAR COINCIDENCIA DE PASSWORDS
-    if (name === "confirmarPassword" || name === "password") {
-      setPasswordsCoinciden(
-        formulario.password === value || formulario.confirmarPassword === value
-      );
-    }
-  };
-
-  // 🎯 VALIDACIÓN DE EMAIL
-  const validarEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
+  // 🎯 Observar cambios en el password para validaciones en tiempo real
+  const password = watch("password");
+  const confirmarPassword = watch("confirmarPassword");
 
   // 🎯 VALIDACIÓN COMPLETA DE PASSWORD
   const validarPassword = (password) => {
-    setLongitud(password.length);
-    setTieneMayuscula(/[A-Z]/.test(password));
-    setTieneMinuscula(/[a-z]/.test(password));
-    setTieneNumero(/\d/.test(password));
+    if (!password) return { fuerza: 0, criterios: {} };
+
+    const criterios = {
+      longitud: password.length >= 8,
+      mayuscula: /[A-Z]/.test(password),
+      minuscula: /[a-z]/.test(password),
+      numero: /\d/.test(password),
+    };
 
     // Calcular fuerza
     let fuerza = 0;
     fuerza += Math.min(password.length * 5, 40);
-    if (/[A-Z]/.test(password)) fuerza += 20;
-    if (/[a-z]/.test(password)) fuerza += 20;
-    if (/\d/.test(password)) fuerza += 20;
+    if (criterios.mayuscula) fuerza += 20;
+    if (criterios.minuscula) fuerza += 20;
+    if (criterios.numero) fuerza += 20;
 
-    setFuerzaPassword(Math.min(fuerza, 100));
+    return {
+      fuerza: Math.min(fuerza, 100),
+      criterios,
+    };
   };
 
-  // 🎯 VERIFICAR SI EL FORMULARIO ES VÁLIDO
-  const formularioEsValido = () => {
-    return (
-      formulario.nombre.length >= 2 &&
-      validarEmail(formulario.email) &&
-      fuerzaPassword >= 60 &&
-      passwordsCoinciden &&
-      formulario.password === formulario.confirmarPassword
-    );
-  };
-
-  // 🎯 MANEJAR ENVÍO DEL FORMULARIO
-  const manejarEnvio = async (evento) => {
-    evento.preventDefault();
-    setEstaEnviando(true);
-
-    try {
-      // 📤 SIMULAR ENVÍO A UNA API
-      console.log("Enviando datos:", formulario);
-
-      // ⏳ Simular delay de red
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // ✅ REGISTRO EXITOSO
-      setRegistroExitoso(true);
-
-      // 📧 SIMULAR ENVÍO DE CORREO (en una app real, esto lo haría el backend)
-      console.log(`📧 Correo enviado a: ${formulario.email}`);
-      console.log("Asunto: Bienvenido a nuestra plataforma");
-      console.log("Mensaje: Gracias por registrarte...");
-    } catch (error) {
-      console.error("Error en el registro:", error);
-    } finally {
-      setEstaEnviando(false);
-    }
-  };
+  const { fuerza: fuerzaPassword, criterios } = validarPassword(password);
 
   // 🎯 INFORMACIÓN DE FUERZA DE PASSWORD
   const obtenerInfoFuerza = () => {
@@ -132,20 +74,39 @@ function FormularioRegistro() {
 
   const infoFuerza = obtenerInfoFuerza();
 
+  // 🎯 MANEJAR ENVÍO DEL FORMULARIO
+  const onSubmit = async (data) => {
+    setEstaEnviando(true);
+
+    try {
+      // 📤 SIMULAR ENVÍO A UNA API
+      console.log("Enviando datos:", data);
+
+      // ⏳ Simular delay de red
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // ✅ REGISTRO EXITOSO
+      setRegistroExitoso(true);
+
+      // 📧 SIMULAR ENVÍO DE CORREO
+      console.log(`📧 Correo enviado a: ${data.email}`);
+    } catch (error) {
+      console.error("Error en el registro:", error);
+    } finally {
+      setEstaEnviando(false);
+    }
+  };
+
   // 🎯 RESETEAR FORMULARIO
   const resetearFormulario = () => {
-    setFormulario({
-      nombre: "",
-      email: "",
-      password: "",
-      confirmarPassword: "",
-    });
+    reset();
     setRegistroExitoso(false);
-    setFuerzaPassword(0);
   };
 
   // SI EL REGISTRO FUE EXITOSO, MOSTRAR MENSAJE DE CONFIRMACIÓN
   if (registroExitoso) {
+    const email = watch("email");
+
     return (
       <Card className="shadow-sm text-center">
         <Card.Body className="py-5">
@@ -156,7 +117,7 @@ function FormularioRegistro() {
           <p className="text-muted mb-4">
             Te hemos enviado un correo de confirmación a:
             <br />
-            <strong>{formulario.email}</strong>
+            <strong>{email}</strong>
           </p>
           <Button variant="primary" onClick={resetearFormulario}>
             Registrar Otro Usuario
@@ -173,24 +134,29 @@ function FormularioRegistro() {
       </Card.Header>
 
       <Card.Body>
-        <Form onSubmit={manejarEnvio}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           {/* 👤 CAMPO NOMBRE */}
           <Form.Group className="mb-3">
             <Form.Label>Nombre completo *</Form.Label>
             <Form.Control
               type="text"
-              name="nombre"
-              value={formulario.nombre}
-              onChange={manejarCambio}
               placeholder="Tu nombre completo"
-              required
-              minLength={2}
+              isInvalid={errors.nombre}
+              {...register("nombre", {
+                required: "El nombre es obligatorio",
+                minLength: {
+                  value: 2,
+                  message: "El nombre debe tener al menos 2 caracteres",
+                },
+                pattern: {
+                  value: /^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/,
+                  message: "El nombre solo puede contener letras",
+                },
+              })}
             />
-            {formulario.nombre && formulario.nombre.length < 2 && (
-              <Form.Text className="text-danger">
-                El nombre debe tener al menos 2 caracteres
-              </Form.Text>
-            )}
+            <Form.Control.Feedback type="invalid">
+              {errors.nombre && errors.nombre.message}
+            </Form.Control.Feedback>
           </Form.Group>
 
           {/* 📧 CAMPO EMAIL */}
@@ -198,18 +164,19 @@ function FormularioRegistro() {
             <Form.Label>Email *</Form.Label>
             <Form.Control
               type="email"
-              name="email"
-              value={formulario.email}
-              onChange={manejarCambio}
               placeholder="tu@email.com"
-              required
-              isInvalid={formulario.email && !emailValido}
+              isInvalid={errors.email}
+              {...register("email", {
+                required: "El email es obligatorio",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Por favor ingresa un email válido",
+                },
+              })}
             />
-            {formulario.email && !emailValido && (
-              <Form.Text className="text-danger">
-                Por favor ingresa un email válido
-              </Form.Text>
-            )}
+            <Form.Control.Feedback type="invalid">
+              {errors.email && errors.email.message}
+            </Form.Control.Feedback>
           </Form.Group>
 
           {/* 🔐 CAMPO PASSWORD */}
@@ -217,15 +184,26 @@ function FormularioRegistro() {
             <Form.Label>Contraseña *</Form.Label>
             <Form.Control
               type="password"
-              name="password"
-              value={formulario.password}
-              onChange={manejarCambio}
               placeholder="Crea una contraseña segura"
-              required
+              isInvalid={errors.password}
+              {...register("password", {
+                required: "La contraseña es obligatoria",
+                minLength: {
+                  value: 8,
+                  message: "La contraseña debe tener al menos 8 caracteres",
+                },
+                validate: {
+                  fuerza: () =>
+                    fuerzaPassword >= 60 || "La contraseña es muy débil",
+                },
+              })}
             />
+            <Form.Control.Feedback type="invalid">
+              {errors.password && errors.password.message}
+            </Form.Control.Feedback>
 
             {/* 📊 INDICADOR DE FUERZA */}
-            {formulario.password && (
+            {password && (
               <div className="mt-2">
                 <div className="d-flex justify-content-between align-items-center mb-1">
                   <small>Fuerza de la contraseña:</small>
@@ -241,31 +219,39 @@ function FormularioRegistro() {
                 <ListGroup>
                   <ListGroup.Item className="py-1 px-2">
                     <small
-                      className={longitud >= 8 ? "text-success" : "text-muted"}
+                      className={
+                        criterios.longitud ? "text-success" : "text-muted"
+                      }
                     >
-                      {longitud >= 8 ? "✅" : "⭕"} Al menos 8 caracteres (
-                      {longitud}/8)
+                      {criterios.longitud ? "✅" : "⭕"} Al menos 8 caracteres (
+                      {password.length}/8)
                     </small>
                   </ListGroup.Item>
                   <ListGroup.Item className="py-1 px-2">
                     <small
-                      className={tieneMayuscula ? "text-success" : "text-muted"}
+                      className={
+                        criterios.mayuscula ? "text-success" : "text-muted"
+                      }
                     >
-                      {tieneMayuscula ? "✅" : "⭕"} Letra mayúscula
+                      {criterios.mayuscula ? "✅" : "⭕"} Letra mayúscula
                     </small>
                   </ListGroup.Item>
                   <ListGroup.Item className="py-1 px-2">
                     <small
-                      className={tieneMinuscula ? "text-success" : "text-muted"}
+                      className={
+                        criterios.minuscula ? "text-success" : "text-muted"
+                      }
                     >
-                      {tieneMinuscula ? "✅" : "⭕"} Letra minúscula
+                      {criterios.minuscula ? "✅" : "⭕"} Letra minúscula
                     </small>
                   </ListGroup.Item>
                   <ListGroup.Item className="py-1 px-2">
                     <small
-                      className={tieneNumero ? "text-success" : "text-muted"}
+                      className={
+                        criterios.numero ? "text-success" : "text-muted"
+                      }
                     >
-                      {tieneNumero ? "✅" : "⭕"} Al menos un número
+                      {criterios.numero ? "✅" : "⭕"} Al menos un número
                     </small>
                   </ListGroup.Item>
                 </ListGroup>
@@ -278,25 +264,24 @@ function FormularioRegistro() {
             <Form.Label>Confirmar contraseña *</Form.Label>
             <Form.Control
               type="password"
-              name="confirmarPassword"
-              value={formulario.confirmarPassword}
-              onChange={manejarCambio}
               placeholder="Repite tu contraseña"
-              required
-              isInvalid={!passwordsCoinciden}
+              isInvalid={errors.confirmarPassword}
+              {...register("confirmarPassword", {
+                required: "Confirma tu contraseña",
+                validate: (value) =>
+                  value === password || "Las contraseñas no coinciden",
+              })}
             />
-            {!passwordsCoinciden && (
-              <Form.Text className="text-danger">
-                Las contraseñas no coinciden
-              </Form.Text>
-            )}
+            <Form.Control.Feedback type="invalid">
+              {errors.confirmarPassword && errors.confirmarPassword.message}
+            </Form.Control.Feedback>
           </Form.Group>
 
           {/* 🎯 BOTÓN DE REGISTRO */}
           <Button
             variant="primary"
             type="submit"
-            disabled={!formularioEsValido() || estaEnviando}
+            disabled={estaEnviando}
             className="w-100"
           >
             {estaEnviando ? (
