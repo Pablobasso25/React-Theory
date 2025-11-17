@@ -310,3 +310,9 @@ function FormularioRegistro() {
 }
 
 export default FormularioRegistro;
+
+
+
+
+
+
